@@ -1,4 +1,4 @@
-import {regiteruser,loginuser,logoutuser} from '../controler/user.controler.js'
+import {regiteruser,loginuser,logoutuser,chengepassword} from '../controler/user.controler.js'
 
 import {upload} from '../middlewares/multer.js'
 import {veryfaccess} from '../middlewares/auth.middleweaer.js'
@@ -17,5 +17,6 @@ router.route('/register').post(
     regiteruser)
 router.route('/login').post(loginuser) 
 router.route('/logout').post(veryfaccess,logoutuser)   
+router.route('/chengepassword').post(veryfaccess,chengepassword)
 
 export default router

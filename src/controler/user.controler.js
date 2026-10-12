@@ -220,4 +220,24 @@ const refreshaccesstoken = asynchendler(async(req,res)=>{
     newrefershtoken
   },"new accestoken genration succses"))
 })
-export {regiteruser,loginuser,logoutuser}
+const chengepassword = asynchendler(async (req,res)=>{
+  const user = await User.findById(req.user?.id)
+  const {currentpass,newpass} = req.body
+  if(!cuurenpass){
+    throw new apierr(401,"enter current password")
+  }
+  if(!newpass){
+    throw new apierr(402,"enter new password")
+  }
+ const passwordiscorrect = user.iscorrect(currentpass)
+ if(!passwordiscorrect){
+  throw new apierr(403,"password is incorrect")
+ }
+ user.password = newpass
+await user.save({ValidateBeforeSave: false})
+return res.json(new apiresponse(200,"password chenge sucssecfull",
+))
+
+
+})
+export {regiteruser,loginuser,logoutuser,chengepassword}
