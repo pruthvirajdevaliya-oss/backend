@@ -221,7 +221,7 @@ const refreshaccesstoken = asynchendler(async(req,res)=>{
   },"new accestoken genration succses"))
 })
 const chengepassword = asynchendler(async (req,res)=>{
-  const user = await User.findById(req.user?.id)
+  const user = await User.findById(req.user?._id)
   const {currentpass,newpass} = req.body
   if(!cuurenpass){
     throw new apierr(401,"enter current password")
@@ -235,9 +235,39 @@ const chengepassword = asynchendler(async (req,res)=>{
  }
  user.password = newpass
 await user.save({ValidateBeforeSave: false})
-return res.json(new apiresponse(200,"password chenge sucssecfull",
+return res.status(200)
+.json(new apiresponse(200,"password chenge seccessfull",
 ))
 
 
+
 })
-export {regiteruser,loginuser,logoutuser,chengepassword}
+const updatefullame = asynchendler(async(req,res)=>{
+  const {fullname} = req.body
+  if(!fullname){
+    throw new apierr(400,"enter fullname")
+  }
+  const user = User.findOneAndUpdate(req.user?._id,
+    {
+      $set:{
+        fullname: fullname
+      }
+    }
+  )
+
+  return res.status(200).json(new apierr(200,"name change seccessfully"))
+})
+const getuserinfo = asynchendler(async(req,res)=>{
+  const user = User.findeById(req.user?._id)
+  .select("-password -refreshtokens")
+  return res.status(200)
+  .json(new apiresponse(200,"user info get success",{user}))
+
+})
+// const chengeavatar = asynchendler(async(req,res)=>{
+  
+// })
+export {regiteruser,loginuser,
+  logoutuser,refreshaccesstoken
+  ,updatefullame,chengepassword,
+getuserinfo}
