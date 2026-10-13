@@ -258,15 +258,55 @@ const updatefullame = asynchendler(async(req,res)=>{
   return res.status(200).json(new apierr(200,"name change seccessfully"))
 })
 const getuserinfo = asynchendler(async(req,res)=>{
-  const user = User.findeById(req.user?._id)
+  const user = await User.findeById(req.user?._id)
   .select("-password -refreshtokens")
   return res.status(200)
   .json(new apiresponse(200,"user info get success",{user}))
 
 })
-// const chengeavatar = asynchendler(async(req,res)=>{
+const chengeavatar = asynchendler(async(req,res)=>{
   
-// })
+  const avatarlocal = req.file?.path
+  if (!avatarlocal){
+    throw new apierr(400,'avatar file are missing')
+  }
+  const avatar = await uploadImage(avatarlocal)
+  if (!avatar){
+    throw new apierr(500,"erro in uploading avatr ")
+  }
+   await User.findOneAndUpdate(req.user?._id,
+    {
+      $set:{avatar:avatar.url}
+    },
+    {
+    new:true
+    }
+
+   )
+})
+const chengecoverima = asynchendler(async(req,res)=>{
+  
+  const coverlocal = req.file?.path
+  if (!coverlocal){
+    throw new apierr(400,'avatar file are missing')
+  }
+  const cover = await uploadImage(coverlocal)
+  if (!avatar){
+    throw new apierr(500,"erro in uploading avatr ")
+  }
+   await User.findOneAndUpdate(req.user?._id,
+    {
+      $set:{coverImage:cover.url}
+    },
+    {
+    new:true
+    }
+
+   )
+   return res.json(new apiresponse(200,"avtar chenge successfull"))
+
+
+})
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
   ,updatefullame,chengepassword,
