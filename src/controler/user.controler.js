@@ -283,12 +283,13 @@ const chengeavatar = asynchendler(async(req,res)=>{
     }
 
    )
+   return res.json(new apierr(200,"avatar chenge successfull"))
 })
 const chengecoverima = asynchendler(async(req,res)=>{
   
   const coverlocal = req.file?.path
   if (!coverlocal){
-    throw new apierr(400,'avatar file are missing')
+    throw new apierr(400,'cover file are missing')
   }
   const cover = await uploadImage(coverlocal)
   if (!avatar){
@@ -303,11 +304,11 @@ const chengecoverima = asynchendler(async(req,res)=>{
     }
 
    )
-   return res.json(new apiresponse(200,"avtar chenge successfull"))
+   return res.json(new apiresponse(200,"coverimage chenge successfull"))
 
 
 })
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
   ,updatefullame,chengepassword,
-getuserinfo}
+getuserinfo,chengeavatar,chengecoverima}
