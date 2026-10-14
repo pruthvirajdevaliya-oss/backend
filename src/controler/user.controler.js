@@ -3,6 +3,7 @@ import {apierr} from '../utils/apierr.js'
 import {User} from '../models/user.models.js'
 import {uploadImage} from '../utils/upload.js'
 import { apiresponse } from '../utils/apiresponse.js'
+import {subcription} from '../models/subcription.models.js'
 
 
 
@@ -307,6 +308,68 @@ const chengecoverima = asynchendler(async(req,res)=>{
    return res.json(new apiresponse(200,"coverimage chenge successfull"))
 
 
+})
+const chenalinfo = asynchendler(async(req,res)=>{
+  const {username} = req.params
+  if(!username){
+    throw new apierr(400,"can't get username")
+  }
+  const user = User.aggregate([
+    {
+      $match:{
+        username: username
+      }
+      
+    },
+    {
+      $lookup:{
+        from:"subcriptions",
+        localField:"_id",
+        foreignField:"subcriber",
+        as:"subscribeto"
+
+
+      }
+    },
+    {
+      $lookup:{
+        from:"subcriptions",
+        localField:"_id",
+        foreignField:"chenal",
+        as:"subscribers"
+      }
+    },
+    {
+      $addFields:{
+        subscribers:{
+          $size:"subscribers"
+        }
+      },
+      subscribto:{
+        $size:"subscribeto"
+      },
+      issubcribe:{
+        $cond:{
+          if:{$in:[req.user?._id,"$susubscribers.subcriber"]},
+          then:true,
+          else:false
+        }
+      }
+    },
+    {
+      $project:{
+        usrname:1,
+        fullname:1,
+        subscribeto:1,
+        subscribers:1,
+        avatar:1,
+        coverImage:1
+
+
+      }
+    }
+
+  ])
 })
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
