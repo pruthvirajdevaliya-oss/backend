@@ -314,7 +314,7 @@ const chenalinfo = asynchendler(async(req,res)=>{
   if(!username){
     throw new apierr(400,"can't get username")
   }
-  const user = User.aggregate([
+  const chenal = User.aggregate([
     {
       $match:{
         username: username
@@ -370,6 +370,12 @@ const chenalinfo = asynchendler(async(req,res)=>{
     }
 
   ])
+  if(!chenal){
+    throw new apierr(500,"sever err chenal fetching fail")
+  }
+  return res.status(200).
+  json(new apiresponse(200,"chanel info fetch successfully",chenal[0]))
+
 })
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
