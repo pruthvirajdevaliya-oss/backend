@@ -314,7 +314,7 @@ const chenalinfo = asynchendler(async(req,res)=>{
   if(!username){
     throw new apierr(400,"can't get username")
   }
-  const chenal = User.aggregate([
+  const chenal = await User.aggregate([
     {
       $match:{
         username: username
@@ -380,4 +380,4 @@ const chenalinfo = asynchendler(async(req,res)=>{
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
   ,updatefullame,chengepassword,
-getuserinfo,chengeavatar,chengecoverima}
+getuserinfo,chengeavatar,chengecoverima,chenalinfo}

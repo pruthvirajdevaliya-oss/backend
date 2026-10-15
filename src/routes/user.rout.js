@@ -1,6 +1,6 @@
 import {regiteruser,loginuser,logoutuser
     ,chengepassword,chengecoverima,getuserinfo
-    ,chengeavatar} from '../controler/user.controler.js'
+    ,chengeavatar,chenalinfo} from '../controler/user.controler.js'
 
 import {upload} from '../middlewares/multer.js'
 import {veryfaccess} from '../middlewares/auth.middleweaer.js'
@@ -23,5 +23,6 @@ router.route('/chengepassword').post(veryfaccess,chengepassword)
 router.route('/getuserinfo').get(veryfaccess,getuserinfo)
 router.route('/chengeavatar').post(veryfaccess,chengeavatar)
 router.route('/chengecoverimag').post(veryfaccess,chengecoverima)
+router.route('/chenalinfo').get(veryfaccess,chenalinfo)
 
 export default router
