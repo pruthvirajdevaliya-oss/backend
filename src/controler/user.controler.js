@@ -377,6 +377,8 @@ const chenalinfo = asynchendler(async(req,res)=>{
   json(new apiresponse(200,"chanel info fetch successfully",chenal[0]))
 
 })
+
+
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
   ,updatefullame,chengepassword,

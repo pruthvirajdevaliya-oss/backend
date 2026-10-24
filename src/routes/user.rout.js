@@ -21,8 +21,14 @@ router.route('/login').post(loginuser)
 router.route('/logout').post(veryfaccess,logoutuser)   
 router.route('/chengepassword').post(veryfaccess,chengepassword)
 router.route('/getuserinfo').get(veryfaccess,getuserinfo)
-router.route('/chengeavatar').post(veryfaccess,chengeavatar)
-router.route('/chengecoverimag').post(veryfaccess,chengecoverima)
+router.route('/chengeavatar').post(veryfaccess,upload.field([
+    {name:'avatar',maxCount:1}
+    
+    
+]),chengeavatar)
+router.route('/chengecoverimag').post(veryfaccess,upload.field([
+    {name : coverImage, maxCount:1}
+]),chengecoverima)
 router.route('/chenalinfo').get(veryfaccess,chenalinfo)
 
 export default router
