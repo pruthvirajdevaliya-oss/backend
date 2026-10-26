@@ -22,15 +22,15 @@ const videoupload = asynchendler(async (req,res)=>{
     if(!(video,thumbnail)){
         throw new apierr(500,"err in upload")
     }
-    if((titale.Trim()).leaght == 0 ){
-        throw new apierr(401,"tital must be requard")
+    if((titale.trim()).lenght == 0 ){
+        throw new apierr(401,"tital must be requird")
     }
     const userid = req.user?._id
     if (!userid){
         throw new apierr(500,"cant find user id")
     }
     await Video.create({
-        video:video.url,
+        videofile:video.url,
         thumbnail:thumbnail.url,
         titale,
         description,
@@ -39,4 +39,5 @@ const videoupload = asynchendler(async (req,res)=>{
    return res.status(200).json(new apiresponse(200,"video uploaded sucssefully"))
 
 })
+
 export {videoupload}

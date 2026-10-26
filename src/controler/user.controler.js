@@ -377,6 +377,23 @@ const chenalinfo = asynchendler(async(req,res)=>{
   json(new apiresponse(200,"chanel info fetch successfully",chenal[0]))
 
 })
+const subscribe = asynchendler(async (req,res)=>{
+    const chanal = req.params?.chanal
+
+    if(!chanal){
+      throw new apierr(406,"can't params is missing")
+    }
+    const chenalid = await User.findOne({username:chanal})
+    const userid = req.user?._id
+    if(!userid){
+      throw new apierr(401,"unauthorised requast")
+    }
+    await subcription.create({
+      subcriber:userid,
+      chanel:chenalid._id
+    })
+    return res.status(200).json(new apiresponse(200,"subcribe sucesscfull"))
+})
 
 
 export {regiteruser,loginuser,
