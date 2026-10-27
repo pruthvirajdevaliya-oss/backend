@@ -2,6 +2,7 @@ import{asynchendler} from '../utils/asynchendler.js'
 import {apierr} from '../utils/apierr.js'
 import {User} from '../models/user.models.js'
 import {Video} from '../models/video.model.js'
+import {Like} from '../models/like.model.js'
 import {uploadImage} from '../utils/upload.js'
 import { apiresponse } from '../utils/apiresponse.js'
 
@@ -39,5 +40,23 @@ const videoupload = asynchendler(async (req,res)=>{
    return res.status(200).json(new apiresponse(200,"video uploaded sucssefully"))
 
 })
+const like = asynchendler(async(req,res)=>{
+    const{videoid}=req.params
+    if(!videoid){
+        throw new apierr(403,'videoid id missing')
+    }
+    const userid = req.user?._id
+    if(!userid){
+        throw new apierr(400,"unauthorised request")
+    }
 
-export {videoupload}
+  const like =  await Like.create({
+        video:videoid,
+        likebyuser:userid
+    })
+    if(!like){
+        throw new apierr(500,"like is not register yet ")
+    }
+    return res.status(200).json(new apiresponse(200,"like is register"))
+})
+export {videoupload,like}

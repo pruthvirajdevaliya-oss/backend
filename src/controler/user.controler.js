@@ -399,4 +399,4 @@ const subscribe = asynchendler(async (req,res)=>{
 export {regiteruser,loginuser,
   logoutuser,refreshaccesstoken
   ,updatefullame,chengepassword,
-getuserinfo,chengeavatar,chengecoverima,chenalinfo}
+getuserinfo,chengeavatar,chengecoverima,chenalinfo,subscribe}
